@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>Icon Commons!</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.0/ui-bootstrap-tpls.js"></script>
+        <script type="text/javascript">
+            // @todo inject configuration from django
+        </script>
+        <script src="/static/app.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body ng-app='icon_commons' ng-controller='App as app'>
+        {% verbatim %}
+        <div class="container">
+            <div class="row">
+                <h1>Icon Commons</h1>
+            </div>
+            <div class="row">
+                <tabset>
+                    <tab heading="Tags">
+                        <input ng-model='app.tagModel' type="text" placeholder="Search By Tag" typeahead-wait-ms='250' typeahead="tag for tag in getTags($viewValue)" class="form-control" typeahead-on-select="typeaheadSelect($item, $model, $label)"/>
+                        <icon-list icons="app.search._icons"></icon-list>
+                        <button ng-if="app.search._more" ng-click="loadMore(app.search)" class="col-lg-4 col-lg-offset-4 btn btn-primary">Load More</button>
+                    </tab>
+                    <tab heading="Collections">
+                        <accordion close-others='true'>
+                            <accordion-group ng-repeat='col in app.collections'>
+                                <accordion-heading>
+                                    <span ng-click="opened(col)">{{col.name}} [ {{col.icons}} icons ]</span>
+                                </accordion-heading>
+                                <div>
+                                    <icon-list icons="col._icons" class="clearfix"></icon-list>
+                                    <button ng-if="col._more" ng-click="loadMore(col)" class="col-lg-4 col-lg-offset-4 btn btn-primary">Load More</button>
+                                </div>
+                            </accordion-group>
+                        </accordion>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+        {% endverbatim %}
+    </body>
+</html>

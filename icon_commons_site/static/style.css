@@ -1,0 +1,17 @@
+ul.icon-list {
+    list-style: none;
+}
+.icon-list li {
+    float: left;
+    height: 164px;
+}
+.icon-list img {
+    max-height: 128px;
+    width: 128px;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+icon-list {
+    display: block;
+}

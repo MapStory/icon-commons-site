@@ -1,0 +1,4 @@
+db.sqlite3
+local_settings.py
+django_icon_commons_site.egg-info
+scratch
