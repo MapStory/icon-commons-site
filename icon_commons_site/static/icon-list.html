@@ -1,6 +1,8 @@
 <ul class='icon-list' ng-if="icons">
     <li class='col-lg-2' ng-repeat="i in icons">
-        <img ng-src="{{i.href}}" class="img-thumbnail"/>
+        <a href="#{{i.href}}">
+            <img ng-src="{{i.href}}" class="img-thumbnail"/>
+        </a>
         <p>{{i.name}}</p>
     </li>
 </ul>
