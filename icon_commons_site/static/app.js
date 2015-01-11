@@ -59,7 +59,6 @@
                     opacity: 1
                 };
                 var existingFill = e.css('fill') || e.attr('fill') || '';
-                console.log(existingFill);
                 if (existingFill != 'none' && existingFill != 'rgb(255, 255, 255)' && existingFill.toLowerCase() != '#ffffff') {
                     css.fill = fill;
                 }
@@ -76,20 +75,55 @@
     module.controller('IconView', function($scope, $location, $http, SVG) {
         var path = $location.path();
         function colorIcon() {
+            var coloredSVG = process($scope.data.rawsvg, $scope.color.fill, $scope.color.stroke);
+            $scope.colored = {
+                rawsvg: coloredSVG,
+                uri: SVG.getDataURI(coloredSVG)
+            };
+            var port = '';
+            if ($location.port() != 80) {
+                port = ':' + $location.port();
+            }
+            $scope.coloredLink = $location.protocol() + "://" + $location.host() + port + path + '?' + 'fill=' + encodeURIComponent($scope.color.fill) + "&stroke=" + encodeURIComponent($scope.color.stroke);
+        }
+        function readMetaData() {
+            // @todo cleanup this POC
+            var element = angular.element(document.createElement('div'));
+            element.html($scope.data.rawsvg);
+            element = element.find('svg').find('metadata')[0];
+            var metadata = [];
+            if (element) {
+                Array.forEach(element.getElementsByTagName('*'), function(e) {
+                    var tag = e.tagName;
+                    if (tag == 'cc:license') {
+                        metadata.push({
+                            key:'License',
+                            href:e.attributes.getNamedItem('rdf:resource').value
+                        });
+                    }
+                    if (tag == 'dc:publisher') {
+                        var el = angular.element(e).find('cc:agent');
+                        metadata.push({
+                            key:'Publisher',
+                            value: el.find('dc:title').text(),
+                            href: el.attr('rdf:about')
+                        });
+                    }
+                });
+            } else {
+                metadata.push({key:'None'});
+            }
+            $scope.metadata = metadata;
+        }
+        function iconChanged() {
             if ($scope.data) {
-                $scope.colored = {
-                    uri: SVG.getDataURI(process($scope.data.rawsvg, $scope.color.fill, $scope.color.stroke))
-                };
-                var port = '';
-                if ($location.port() != 80) {
-                    port = ':' + $location.port();
-                }
-                $scope.coloredLink = $location.protocol() +"://" + $location.host() + port + path + '?' + 'fill=' + encodeURIComponent($scope.color.fill) + "&stroke=" + encodeURIComponent($scope.color.stroke);
+                colorIcon();
+                readMetaData();
             }
         }
         $scope.color = {
-            fill:'#ff0000',
-            stroke:'#0000ff'
+            fill: '#ff0000',
+            stroke: '#0000ff'
         };
         $http.get(path + '/info').then(function(response) {
             $scope.iconInfo = response.data;
@@ -99,17 +133,17 @@
                 uri: SVG.getDataURI(response.data),
                 rawsvg: response.data
             };
-            colorIcon();
+            iconChanged();
         });
         $scope.change = function(svg) {
             $scope.data.uri = SVG.getDataURI(svg);
             $scope.rawsvg = svg;
-            colorIcon();
+            iconChanged();
         };
         $scope.sce = function() {
             $scope.data.uri = SVG.getDataURI($scope.data.rawsvg);
         };
-        $scope.$watch('color', colorIcon, true);
+        $scope.$watch('color', iconChanged, true);
     });
 
     module.controller('Collection', function($scope, $routeParams, $http, IconService) {

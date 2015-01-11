@@ -8,15 +8,36 @@
     </div>
     <div class="icon-list col-lg-4">
         <div class="well">
-            <a class="badge" href="#/icons/collections/{{ iconInfo.collection.id}}">{{ iconInfo.collection.name}}</a>
-            <h5>Tags</h5>
-            <a ng-repeat='tag in iconInfo.tags' class="badge" href="#/tags/{{tag.name}}">
-                {{tag.name}}
-            </a>
-            <h5>Versions</h5>
-            <span ng-repeat='v in iconInfo.versions' class="badge">
-                {{v.version}}
-            </span>
+            <dl>
+                <dt>Collection</dt>
+                <dd>
+                    <a class="badge" href="#/icons/collections/{{ iconInfo.collection.id}}">{{ iconInfo.collection.name}}</a>
+                </dd>
+                <dt>Tags</dt>
+                <dd>
+                    <a ng-repeat='tag in iconInfo.tags' class="badge" href="#/tags/{{tag.name}}">
+                        {{tag.name}}
+                    </a>
+                </dd>
+                <dt>Versions</dt>
+                <dd>
+                    <span ng-repeat='v in iconInfo.versions' class="badge">
+                        {{v.version}}
+                    </span>
+                </dd>
+            </dl>
+        </div>
+        <div class="well">
+            <h5>Useful Metadata</h5>
+            <dl>
+                <dt ng-repeat-start='kv in metadata'>{{kv.key}}</dt>
+                <dd ng-repeat-end>
+                    <span>{{kv.value}}</span>
+                    <span ng-if="kv.href">
+                        <a href="{{kv.href}}" target="_">more</a>
+                    </span>
+                </dd>
+            </dl>
         </div>
     </div>
     <div class="icon-list col-lg-4 ">
