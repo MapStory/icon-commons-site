@@ -206,17 +206,24 @@
     module.directive('svgImage', function() {
         return {
             restrict: 'E',
-            template: '<img ng-src="{{src.uri}}"></img>',
+            template: '<img ng-src="{{src.uri}}"></img><div class=bg-danger ng-if=svgErrors>SVG Errors</div>',
             scope: {
                 'src': '='
             },
             link: function(scope, element, attrs) {
                 var img = element.find('img');
+                scope.svgErrors = false;
+                function setErrors(e) {
+                    scope.$apply(function() {
+                        scope.svgErrors = e;
+                    });
+                }
                 img.on('error', function() {
-                    console.log('error', arguments);
+                    setErrors(true);
+                    // @todo detect bad load of intial rawsvg and report the problem
                 });
                 img.on('load', function() {
-                    console.log('load', arguments);
+                    setErrors(false);
                 });
             }
         };
