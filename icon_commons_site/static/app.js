@@ -235,18 +235,28 @@
             template: '<div></div>',
             scope: {
                 'data': '=',
-                'change': '='
+                'change': '=',
+                'isActive': '=',
+                'readOnly': '@'
             },
             link: function(scope, element, attrs) {
+                var ro = scope.readOnly == 'true';
                 var cm = CodeMirror(element[0], {
                     value: scope.data.rawsvg,
+                    lineNumbers: true,
+                    readOnly: ro,
+                    indentUnit: 4,
                     mode: "xml"
                 });
-                cm.setSize('100%','50%');
+                cm.setSize('100%', '50%');
                 cm.on('change', function() {
                     scope.$apply(function() {
                         scope.change(cm.getValue());
                     });
+                });
+                // ugly hack to refresh and fix blank editor in tab
+                scope.watch('isActive', function() {
+                    cm.refresh();
                 });
             }
         };

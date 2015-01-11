@@ -63,5 +63,13 @@
 </div>
 <div class="well">
     <h5>Edit the SVG</h5>
-    <svg-editor class="panel" ng-if="data" data="data" change="change"></svg-editor>
+    <tabset type="pills">
+        <tab heading="Original">
+            <svg-editor class="panel" ng-if="data" data="data" change="change"></svg-editor>
+        </tab>
+        <!-- annoying redraw issue w/ hidden code mirror-->
+        <tab heading="Colored" select="colorEditorSelected=true">
+            <svg-editor read-only="true" class="panel" ng-if="colored" data="colored" is-active="colorEditorSelected"></svg-editor>
+        </tab>
+    </tabset>
 </div>
