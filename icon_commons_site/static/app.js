@@ -40,11 +40,9 @@
     });
 
     module.service('SVG', function() {
-        var element = angular.element(document.createElement('div'));
         return {
             getDataURI: function(rawsvg) {
-                element.html(rawsvg);
-                return 'data:image/svg+xml;base64,' + btoa(element.html());
+                return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(rawsvg)));
             }
         };
     });
