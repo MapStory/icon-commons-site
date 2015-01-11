@@ -1,4 +1,46 @@
-<div class="icon-list">
-    <img ng-src="{{data.uri}}">
+<div class="row" icon-view>
+    {{boss}}
+    <div class="icon-list col-lg-4">
+        <div class="well">
+            <h4>{{ iconInfo.name}}</h4>
+            <svg-image src="data"></svg-image>
+        </div>
+    </div>
+    <div class="icon-list col-lg-4">
+        <div class="well">
+            <a class="badge" href="#/icons/collections/{{ iconInfo.collection.id}}">{{ iconInfo.collection.name}}</a>
+            <h5>Tags</h5>
+            <a ng-repeat='tag in iconInfo.tags' class="badge" href="#/tags/{{tag.name}}">
+                {{tag.name}}
+            </a>
+            <h5>Versions</h5>
+            <span ng-repeat='v in iconInfo.versions' class="badge">
+                {{v.version}}
+            </span>
+        </div>
+    </div>
+    <div class="icon-list col-lg-4 ">
+        <form class="well form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Fill:</label>
+                <div class="col-sm-8">
+                    <input type="color" class="form-control" ng-model="color.fill">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Stroke:</label>
+                <div class="col-sm-8">
+                    <input type="color" class="form-control" ng-model="color.stroke">
+                </div>
+            </div>
+            <svg-image src="colored"></svg-image>
+            <div style="margin-top:1em" class="clearfix">
+                <a class="btn btn-info col-sm-offset-4 col-sm-4" target="_" href="{{coloredLink}}">Colored Link</a>
+            </div>
+        </form>
+    </div>
 </div>
-<textarea ng-change="sce()" ng-model="data.rawsvg" cols="80" rows="20"></textarea>
+<div class="well">
+    <h5>Edit the SVG</h5>
+    <svg-editor class="panel" ng-if="data" data="data" change="change"></svg-editor>
+</div>

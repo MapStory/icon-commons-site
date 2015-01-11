@@ -1,3 +1,3 @@
-<input ng-model='tagModel' type="text" placeholder="Search By Tag" typeahead-wait-ms='250' typeahead="tag for tag in getTags($viewValue)" class="form-control" typeahead-on-select="typeaheadSelect($item, $model, $label)"/>
+<input ng-model='searchPhrase' type="text" placeholder="Search By Tag" typeahead-wait-ms='250' typeahead="tag for tag in getTags($viewValue)" class="form-control" typeahead-on-select="typeaheadSelect($item, $model, $label)"/>
 <icon-list icons="search._icons"></icon-list>
 <button ng-if="search._more" ng-click="loadMore(search)" class="col-lg-4 col-lg-offset-4 btn btn-primary">Load More</button>
