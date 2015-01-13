@@ -3,7 +3,7 @@ icon-commons-site
 
 ## Description
 
-A Django project for an `icon commons` site.
+A Django project for an `icon commons` site (see https://github.com/MapStory/icon-commons)
 
 ## Developer Setup
 
