@@ -19,15 +19,15 @@ Then setup this project - `python setup.py develop`
 
 Now create the database:
 
-`python manange.py syncdb`
+`python manage.py syncdb`
 
 ## Running things
 
 Ingest some data:
 
-`python manange.py ingest <directory>`
+`python manage.py ingest <directory>`
 
 Run the development server (visit http://localhost:8000/):
 
-`python manange.py runserver`
+`python manage.py runserver`
 
